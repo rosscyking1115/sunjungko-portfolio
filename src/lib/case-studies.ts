@@ -1,38 +1,70 @@
-/**
- * Mocked case-study data for Phase 1. In Phase 2 this will be replaced by an
- * MDX loader that reads `content/case-studies/*.mdx` at build time.
- */
+import "server-only";
+import fs from "node:fs";
+import path from "node:path";
+import matter from "gray-matter";
+import readingTime from "reading-time";
+import {
+  caseStudyFrontmatterSchema,
+  type CaseStudy,
+  type CaseStudyMeta,
+} from "@/types/case-study";
 
-export interface CaseStudySummary {
-  slug: string;
-  title: string;
-  category: string;
-  period: string;
-  summary: string;
-  featured: boolean;
+const CONTENT_DIR = path.join(process.cwd(), "content", "case-studies");
+
+function listFiles(): string[] {
+  if (!fs.existsSync(CONTENT_DIR)) return [];
+  return fs.readdirSync(CONTENT_DIR).filter((f) => f.endsWith(".mdx"));
 }
 
-export const caseStudies: CaseStudySummary[] = [
-  {
-    slug: "patagonia-brand-evaluation",
-    title: "Brand Evaluation of Patagonia",
-    category: "Brand strategy",
-    period: "2026",
-    summary:
-      "Applied Kapferer's Brand Identity Prism and Keller's CBBE Model to evaluate Patagonia's brand equity, identity and community structure. Identified premium pricing and niche positioning as the key growth barriers and proposed three recommendations to improve market accessibility without compromising brand integrity.",
-    featured: true,
-  },
-  {
-    slug: "uk-confectionery-market-analysis",
-    title: "UK Confectionery Market Analysis",
-    category: "Market research",
-    period: "2025",
-    summary:
-      "Comprehensive analysis of the £8.4bn UK confectionery industry using PESTEL and Porter's Five Forces. Defined a 'healthier indulgence' positioning targeting 18–34-year-old office workers and designed a full 4Ps marketing strategy backed by Mintel, Statista and Innova data.",
-    featured: true,
-  },
-];
+function readOne(filename: string): CaseStudy {
+  const filePath = path.join(CONTENT_DIR, filename);
+  const raw = fs.readFileSync(filePath, "utf8");
+  const { data, content } = matter(raw);
 
-export function getFeaturedCaseStudies(): CaseStudySummary[] {
-  return caseStudies.filter((s) => s.featured);
+  // Validate frontmatter — throws with a useful Zod error if a field is wrong.
+  const parsed = caseStudyFrontmatterSchema.parse(data);
+
+  // Sanity-check: filename slug must match frontmatter slug.
+  const fileSlug = filename.replace(/\.mdx$/, "");
+  if (parsed.slug !== fileSlug) {
+    throw new Error(
+      `Slug mismatch in ${filename}: frontmatter says "${parsed.slug}" but filename is "${fileSlug}"`,
+    );
+  }
+
+  return {
+    ...parsed,
+    readingTimeMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
+    content,
+  };
+}
+
+/**
+ * Re-reads from disk on every call. With ~10 case studies this is fast enough
+ * and avoids stale-cache surprises in dev when MDX files change.
+ */
+function loadAll(): CaseStudy[] {
+  const studies = listFiles().map(readOne);
+  // Newest first by publishedAt.
+  studies.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+  return studies;
+}
+
+export function getAllCaseStudies(): CaseStudyMeta[] {
+  // CaseStudy structurally extends CaseStudyMeta; the returned objects will
+  // carry an extra `content` field but consumers typed as CaseStudyMeta won't
+  // see it. The data never crosses the network as JSON (server-only).
+  return loadAll();
+}
+
+export function getFeaturedCaseStudies(): CaseStudyMeta[] {
+  return getAllCaseStudies().filter((s) => s.featured);
+}
+
+export function getCaseStudy(slug: string): CaseStudy | undefined {
+  return loadAll().find((s) => s.slug === slug);
+}
+
+export function getCaseStudySlugs(): string[] {
+  return loadAll().map((s) => s.slug);
 }

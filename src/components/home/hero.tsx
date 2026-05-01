@@ -28,11 +28,7 @@ export function Hero() {
               ) : null}
             </h1>
 
-            <p className="text-foreground/85 mt-10 max-w-2xl font-serif text-2xl leading-snug italic md:text-3xl">
-              &ldquo;{siteConfig.tagline}&rdquo;
-            </p>
-
-            <p className="text-muted-foreground mt-8 text-sm">{siteConfig.location}</p>
+            <p className="text-muted-foreground mt-10 text-sm">{siteConfig.location}</p>
 
             <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Link

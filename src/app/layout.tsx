@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Geist, Geist_Mono, EB_Garamond } from "next/font/google";
 import { siteConfig } from "@/lib/site-config";
 import { getServerTheme } from "@/lib/theme-cookie.server";
 import { Nav } from "@/components/layout/nav";
@@ -18,11 +18,10 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const ebGaramond = EB_Garamond({
+  variable: "--font-eb-garamond",
   subsets: ["latin"],
   display: "swap",
-  axes: ["opsz", "SOFT"],
 });
 
 export const metadata: Metadata = {
@@ -59,7 +58,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased ${isDark ? "dark" : ""}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${ebGaramond.variable} h-full antialiased ${isDark ? "dark" : ""}`}
       style={{ colorScheme: theme }}
       suppressHydrationWarning
     >
