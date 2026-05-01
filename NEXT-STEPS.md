@@ -105,15 +105,15 @@ Original CV + headshot are kept under `_inputs/` (gitignored) for reprocessing l
 
 ## After Phase 0 is green, the work plan
 
-| Phase | What we add | Time |
-|---|---|---|
-| 1 | Editorial home page — hero, type system, theme tokens, nav, footer, theme toggle, small-photo treatment | ~90 min |
-| 2 | MDX case-study pipeline — `content/case-studies/` → /case-studies + /case-studies/[slug] with category filter | ~90 min |
-| 3 | About page — bio MDX + education timeline + skills + CV download | ~60 min |
-| 4 | Contact form — Resend + Turnstile + Upstash, server action with graceful degradation | ~120 min |
-| 5 | Security hardening — CSP, HSTS, security.txt, Mozilla Observatory A+ | ~60 min |
-| 6 | Tests — Vitest + Testing Library + Playwright + axe-core + CI matrix | ~120 min |
-| 7 | SEO + structured data — sitemap, robots, JSON-LD, OG images, manifest | ~45 min |
-| 8 | Analytics + custom domain — Vercel Analytics + Speed Insights + sunjungko.com | ~90 min |
+| Phase | What we add                                                                                                                                   | Time     |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| 1     | Editorial home page — hero, type system, theme tokens, nav, footer, theme toggle, small-photo treatment                                       | ~90 min  |
+| 2     | MDX case-study pipeline — `content/case-studies/` → /case-studies + /case-studies/[slug] with category filter                                 | ~90 min  |
+| 3     | About page — bio MDX + education timeline + skills + CV download                                                                              | ~60 min  |
+| 4     | Contact form — Resend + Turnstile + Upstash, server action with graceful degradation                                                          | ~120 min |
+| 5     | Security hardening — CSP, HSTS, security.txt, Mozilla Observatory A+                                                                          | ~60 min  |
+| 6     | Tests — Vitest + Testing Library + Playwright + axe-core + CI matrix                                                                          | ~120 min |
+| 7     | SEO + structured data — sitemap, robots, JSON-LD, OG images, manifest                                                                         | ~45 min  |
+| 8     | Analytics + custom domain — Vercel Analytics + Speed Insights + evelynsjko.com (with sunjungko.com as a redirect once Wix transfer completes) | ~90 min  |
 
 Total wall time ≈ 11 hours. Realistically over 4–6 evenings.

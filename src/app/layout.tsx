@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, EB_Garamond } from "next/font/google";
+import { Toaster } from "sonner";
 import { siteConfig } from "@/lib/site-config";
 import { getServerTheme } from "@/lib/theme-cookie.server";
 import { Nav } from "@/components/layout/nav";
@@ -66,6 +67,16 @@ export default async function RootLayout({
         <Nav />
         <main className="flex flex-1 flex-col">{children}</main>
         <Footer />
+        <Toaster
+          theme={isDark ? "dark" : "light"}
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              fontFamily: "var(--font-sans)",
+              borderRadius: "0.25rem",
+            },
+          }}
+        />
       </body>
     </html>
   );

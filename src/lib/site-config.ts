@@ -6,7 +6,7 @@ export const siteConfig = {
   tagline: "Brand thinking, grounded in research.",
   location: "Sheffield, UK · London from October 2026",
   email: "sunjungko0914@gmail.com",
-  url: "https://sunjungko.com",
+  url: "https://evelynsjko.com",
   description:
     "MSc Marketing & Branding graduate from the University of Sheffield. Brand strategy and market research, available for entry-level roles in London from October 2026.",
   keywords: [
