@@ -27,7 +27,7 @@ export function Footer() {
             <Link
               href={siteConfig.socials.email}
               className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Email"
+              aria-label="Email SunJung Ko"
             >
               <Mail className="h-4 w-4" aria-hidden />
             </Link>

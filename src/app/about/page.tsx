@@ -5,6 +5,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { siteConfig } from "@/lib/site-config";
 import { loadAbout } from "@/lib/about";
+import { profilePageSchema } from "@/lib/json-ld";
 import { Container } from "@/components/layout/container";
 import { ExperienceTimeline } from "@/components/about/experience-timeline";
 import { EducationTimeline } from "@/components/about/education-timeline";
@@ -18,26 +19,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   const bio = loadAbout();
-
-  // Minimal Person JSON-LD here; the full SEO/JSON-LD pass lives in Phase 7.
-  const personJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: siteConfig.fullName,
-    jobTitle: siteConfig.role,
-    url: siteConfig.url,
-    email: siteConfig.email,
-    sameAs: [siteConfig.socials.linkedin],
-    alumniOf: {
-      "@type": "EducationalOrganization",
-      name: "University of Sheffield",
-    },
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Sheffield",
-      addressCountry: "GB",
-    },
-  };
+  const profileJsonLd = profilePageSchema();
 
   return (
     <>
@@ -138,10 +120,10 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* JSON-LD Person */}
+      {/* JSON-LD ProfilePage (wraps Person with full detail) */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd) }}
       />
     </>
   );

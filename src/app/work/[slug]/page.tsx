@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { getCaseStudy, getCaseStudySlugs } from "@/lib/case-studies";
+import { articleSchema } from "@/lib/json-ld";
 import { Container } from "@/components/layout/container";
 
 interface PageProps {
@@ -115,6 +116,14 @@ export default async function CaseStudyPage({ params }: PageProps) {
           </div>
         </div>
       </Container>
+
+      {/* Article structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema(study)),
+        }}
+      />
     </article>
   );
 }

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, EB_Garamond } from "next/font/google";
 import { Toaster } from "sonner";
 import { siteConfig } from "@/lib/site-config";
 import { getServerTheme } from "@/lib/theme-cookie.server";
+import { websiteSchema, personSchema } from "@/lib/json-ld";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import "./globals.css";
@@ -75,6 +76,13 @@ export default async function RootLayout({
               fontFamily: "var(--font-sans)",
               borderRadius: "0.25rem",
             },
+          }}
+        />
+        {/* Site-wide structured data — WebSite + Person */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([websiteSchema(), personSchema()]),
           }}
         />
       </body>

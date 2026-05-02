@@ -48,3 +48,9 @@ next-env.d.ts
 .idea/
 .cursor/
 
+# tests
+/playwright-report
+/test-results
+/blob-report
+/playwright/.cache
+

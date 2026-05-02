@@ -2,7 +2,19 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { CaseStudyMeta } from "@/types/case-study";
 
-export function CaseStudyCard({ study }: { study: CaseStudyMeta }) {
+interface CaseStudyCardProps {
+  study: CaseStudyMeta;
+  /**
+   * Heading level for the title. Default `h3` works on the home page where the
+   * parent section already has an h2 ("Selected work"). On the /work page the
+   * parent IS the h1, so callers should pass `h2` to keep heading order valid
+   * (kit lesson L11).
+   */
+  headingAs?: "h2" | "h3";
+}
+
+export function CaseStudyCard({ study, headingAs = "h3" }: CaseStudyCardProps) {
+  const Heading = headingAs;
   return (
     <li>
       <Link
@@ -12,9 +24,9 @@ export function CaseStudyCard({ study }: { study: CaseStudyMeta }) {
         <p className="text-muted-foreground mb-3 text-[11px] tracking-[0.18em] uppercase">
           {study.category} · {study.period}
         </p>
-        <h3 className="group-hover:text-accent font-serif text-2xl leading-tight tracking-tight transition-colors md:text-3xl">
+        <Heading className="group-hover:text-accent font-serif text-2xl leading-tight tracking-tight transition-colors md:text-3xl">
           {study.title}
-        </h3>
+        </Heading>
         <p className="text-muted-foreground mt-4 text-base leading-relaxed">
           {study.summary}
         </p>
